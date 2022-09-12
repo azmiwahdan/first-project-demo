@@ -38,16 +38,16 @@ public class CourseService {
     }
 
     public Course addCourse(Long categoryId, Course course) {
-        Optional<Category> optionalCategory = categories.stream()
-                .filter(category -> category.getId().equals(categoryId))
-                .findFirst();
-        if (optionalCategory.isPresent()) {
-            Category category = optionalCategory.get();
-            course.setCategory(category);
-            category.getCourses().add(course);
-            categoryService.updateCategory(categoryId, category);
+        Optional<Category> category = categories.stream()
+                .filter(category1 -> category1.getId().equals(categoryId))
+                .findAny();
+
+        if (category.isPresent()) {
+            category.get().getCourses().add(course);
+            categoryService.updateCategory(categoryId, category.get());
+            return courseRepository.save(course);
         }
-        return courseRepository.save(course);
+        return null;
     }
 
     public Optional<Course> findCourseById(Long courseId) {

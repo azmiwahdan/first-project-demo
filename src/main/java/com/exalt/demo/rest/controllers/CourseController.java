@@ -1,6 +1,5 @@
 package com.exalt.demo.rest.controllers;
 
-import com.exalt.demo.rest.exceptions.NotFoundException;
 import com.exalt.demo.rest.models.Course;
 import com.exalt.demo.rest.services.CourseService;
 import org.springframework.http.HttpStatus;
@@ -32,11 +31,10 @@ public class CourseController {
     }
 
     @GetMapping("/courseById/{courseId}")
-    public ResponseEntity<Optional<Course>> findCourseById(@PathVariable Long courseId) throws NotFoundException {
+    public ResponseEntity<Optional<Course>> findCourseById(@PathVariable Long courseId) {
         Optional<Course> course = courseService.findCourseById(courseId);
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
-
     @PostMapping
     public ResponseEntity<Course> addCourse(@RequestParam(name = "category") Long categoryId, @RequestBody Course course) {
         Course addedCourse = courseService.addCourse(categoryId, course);

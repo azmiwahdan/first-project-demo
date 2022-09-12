@@ -1,5 +1,7 @@
 package com.exalt.demo.soap;
 
+import io.spring.guides.gs_producing_web_service.GetStudentByIdRequest;
+import io.spring.guides.gs_producing_web_service.GetStudentByIdResponse;
 import io.spring.guides.gs_producing_web_service.GetStudentRequest;
 import io.spring.guides.gs_producing_web_service.GetStudentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,15 @@ public class StudentEndpoint {
     public GetStudentResponse getStudent(@RequestPayload GetStudentRequest request) {
         GetStudentResponse response = new GetStudentResponse();
         response.setStudent(studentRepository.findStudent(request.getName()));
-
         return response;
     }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getStudentByIdRequest")
+    @ResponsePayload
+    public GetStudentByIdResponse getStudentById(@RequestPayload GetStudentByIdRequest request) {
+        GetStudentByIdResponse response = new GetStudentByIdResponse();
+        response.setStudent(studentRepository.findStudentById(request.getId()));
+        return response;
+    }
+
 }

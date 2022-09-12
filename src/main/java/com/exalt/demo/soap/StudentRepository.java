@@ -6,7 +6,9 @@ import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class StudentRepository {
@@ -29,5 +31,17 @@ public class StudentRepository {
     public Student findStudent(String name) {
         Assert.notNull(name, "The Student's name must not be null");
         return STUDENTS.get(name);
+    }
+
+    public List<Student> findAllStudents() {
+        return STUDENTS.values().stream().toList();
+    }
+
+    public Student findStudentById(int id) {
+        Optional<Student> optionalStudent = STUDENTS.values().stream()
+                .filter(student -> student.getId() == id)
+                .findAny();
+        if (optionalStudent.isPresent()) return optionalStudent.get();
+        return null;
     }
 }
