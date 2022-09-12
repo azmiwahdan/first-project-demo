@@ -35,5 +35,4 @@ public class StudentEndpoint {
         response.setStudent(studentRepository.findStudentById(request.getId()));
         return response;
     }
-
 }
