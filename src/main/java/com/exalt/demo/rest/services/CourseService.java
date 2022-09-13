@@ -27,15 +27,34 @@ public class CourseService {
         thread.start();
     }
 
+    /**
+     * function to get all courses.
+     *
+     * @return list of all courses.
+     */
+
     public List<Course> getAllCourses() {
         return (List<Course>) courseRepository.findAll();
     }
 
+    /**
+     * function to get all course sorted.
+     *
+     * @return list of sorted courses.
+     */
     public List<Course> getSortedCourses() {
         return getAllCourses().stream()
                 .sorted(Comparator.comparing(Course::getName))
                 .collect(Collectors.toList());
     }
+
+    /**
+     * function to add course in a specific category.
+     *
+     * @param categoryId category's id.
+     * @param course     course to add.
+     * @return the added course.
+     */
 
     public Course addCourse(Long categoryId, Course course) {
         Optional<Category> category = categories.stream()
@@ -50,10 +69,23 @@ public class CourseService {
         return null;
     }
 
+    /**
+     * function to find course by id.
+     *
+     * @param courseId course id .
+     * @return
+     */
     public Optional<Course> findCourseById(Long courseId) {
         return courseRepository.findById(courseId);
     }
 
+    /**
+     * function to update a specific course.
+     *
+     * @param courseId course id.
+     * @param course   course to update.
+     * @return
+     */
     public Course updateCourse(Long courseId, Course course) {
         if (findCourseById(courseId).isPresent()) {
             Course existingCourse = findCourseById(courseId).get();
@@ -64,6 +96,11 @@ public class CourseService {
         return null;
     }
 
+    /**
+     * function to delete a specific course.
+     *
+     * @param courseId
+     */
     public void deleteCourse(Long courseId) {
         courseRepository.deleteById(courseId);
     }
